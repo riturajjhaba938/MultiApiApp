@@ -5,14 +5,26 @@ import ApiOneChild from './ApiOneChild';
 const ApiOneParent = () => {
     const [id, setId] = useState('');
     const [data, setData] = useState(null);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
 
     const fetchUser = async () => {
-        if (!id) return;
+        if (!id) {
+            setError("Please enter a valid User ID (e.g., 1-10) before fetching.");
+            return;
+        }
+
+        setLoading(true);
+        setError(null);
+
         try {
             const res = await axios.get(`https://jsonplaceholder.typicode.com/users/${id}`);
             setData(res.data);
-        } catch {
+        } catch (err) {
             setData(null);
+            setError("Failed to fetch user. Ensure the ID exists (1-10) or try again later.");
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -27,7 +39,9 @@ const ApiOneParent = () => {
                     onChange={e => setId(e.target.value)}
                 />
                 <div style={{ display: 'flex', gap: '1rem', alignItems: 'center', marginTop: '1rem' }}>
-                    <button onClick={fetchUser}>Fetch API 1</button>
+                    <button onClick={fetchUser} disabled={loading}>
+                        {loading ? 'Loading...' : 'Fetch API 1'}
+                    </button>
                     <a
                         href="https://jsonplaceholder.typicode.com/users"
                         target="_blank"
@@ -47,7 +61,7 @@ const ApiOneParent = () => {
             </div>
 
             <div className="section">
-                <ApiOneChild data={data} />
+                <ApiOneChild data={data} loading={loading} error={error} />
             </div>
         </div>
     );

@@ -4,16 +4,23 @@ import CharacterCard from '../components/CharacterCard';
 
 const PageTwo = () => {
     const [characters, setCharacters] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
     useEffect(() => {
         const fetchPokemon = async () => {
             try {
+                setLoading(true);
+                setError(null);
                 const res = await axios.get('https://pokeapi.co/api/v2/pokemon?limit=12');
                 const detailedUrls = res.data.results.map(p => axios.get(p.url));
                 const details = await Promise.all(detailedUrls);
                 setCharacters(details.map(d => d.data));
             } catch (err) {
                 console.error(err);
+                setError("Failed to fetch characters from PokéAPI. Please check your connection.");
+            } finally {
+                setLoading(false);
             }
         };
         fetchPokemon();
@@ -41,11 +48,26 @@ const PageTwo = () => {
                     API 2 Available Routes
                 </a>
             </div>
-            <div className="characters-grid">
-                {characters.map(char => (
-                    <CharacterCard key={char.id} character={char} />
-                ))}
-            </div>
+
+            {loading && (
+                <div style={{ textAlign: 'center', padding: '3rem', color: 'var(--text-light)' }}>
+                    <p style={{ fontSize: '1.25rem' }}>Fetching Pokémon data...</p>
+                </div>
+            )}
+
+            {error && (
+                <div style={{ textAlign: 'center', padding: '2rem', color: 'var(--api2-color)' }}>
+                    <p><strong>Error:</strong> {error}</p>
+                </div>
+            )}
+
+            {!loading && !error && (
+                <div className="characters-grid">
+                    {characters.map(char => (
+                        <CharacterCard key={char.id} character={char} />
+                    ))}
+                </div>
+            )}
         </div>
     );
 };

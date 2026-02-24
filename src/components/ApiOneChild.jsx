@@ -1,5 +1,7 @@
-const ApiOneChild = ({ data }) => {
-    if (!data) return <p>No data selected. Enter an ID to fetch data.</p>;
+const ApiOneChild = ({ data, loading, error }) => {
+    if (loading) return <p style={{ color: 'var(--text-light)', fontStyle: 'italic' }}>Loading data please wait...</p>;
+    if (error) return <p style={{ color: 'var(--api2-color)', fontWeight: 'bold' }}>{error}</p>;
+    if (!data) return <p style={{ color: 'var(--text-light)' }}>No data selected. Enter a valid ID (1-10) to fetch data.</p>;
 
     return (
         <div>
