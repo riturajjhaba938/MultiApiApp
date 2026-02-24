@@ -1,9 +1,17 @@
 :root {
-  --primary: #007bff;
-  --bg: #f8f9fa;
-  --text: #212529;
-  --border: #dee2e6;
+  --primary: #4338ca;
+  /* Deep indigo */
+  --api1-color: #0284c7;
+  /* Sky blue */
+  --api2-color: #dc2626;
+  /* Pokemon Red */
+  --bg: #f8fafc;
+  --text: #1e293b;
+  --text-light: #64748b;
+  --border: #e2e8f0;
   --card-bg: #ffffff;
+  --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --radius: 8px;
 }
 
 * {
@@ -42,19 +50,27 @@ body {
   text-decoration: none;
 }
 
+/* Navbar Links & Highlighting */
 .navbar-links {
   display: flex;
   gap: 1.5rem;
 }
 
 .navbar-links a {
-  color: var(--text);
   text-decoration: none;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  color: var(--text-light);
 }
 
-.navbar-links a.active {
-  color: var(--primary);
-  font-weight: bold;
+.api1-link:hover,
+.api1-link.active {
+  color: var(--api1-color) !important;
+}
+
+.api2-link:hover,
+.api2-link.active {
+  color: var(--api2-color) !important;
 }
 
 /* Home Layout - Vertical Split */
@@ -68,9 +84,15 @@ body {
 
 .section {
   background: var(--card-bg);
-  padding: 1.5rem;
+  padding: 2rem;
   border: 1px solid var(--border);
-  border-radius: 4px;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.section h2 {
+  color: var(--api1-color);
+  margin-bottom: 0.5rem;
 }
 
 /* Inputs & Buttons */
@@ -83,12 +105,27 @@ input {
 }
 
 button {
-  padding: 0.5rem 1rem;
-  background-color: var(--primary);
+  padding: 0.75rem 1.5rem;
+  background-color: var(--api1-color);
   color: white;
   border: none;
-  border-radius: 4px;
+  font-weight: 600;
+  border-radius: var(--radius);
   cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+button:hover {
+  background-color: #0369a1;
+}
+
+.route-btn {
+  background-color: var(--primary);
+  margin-left: 1rem;
+}
+
+.route-btn:hover {
+  background-color: #312e81;
 }
 
 button:disabled {
@@ -106,8 +143,15 @@ button:disabled {
 .character-card {
   background: var(--card-bg);
   border: 1px solid var(--border);
-  border-radius: 4px;
+  border-radius: var(--radius);
   overflow: hidden;
+  box-shadow: var(--shadow);
+  transition: transform 0.2s ease;
+}
+
+.character-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--api2-color);
 }
 
 .character-card img {
@@ -117,11 +161,13 @@ button:disabled {
 }
 
 .character-info {
-  padding: 1rem;
+  padding: 1.25rem;
 }
 
 .character-name {
-  font-size: 1.1rem;
+  font-size: 1.25rem;
   font-weight: bold;
-  margin-bottom: 0.5rem;
+  color: var(--api2-color);
+  margin-bottom: 0.25rem;
+  text-transform: capitalize;
 }

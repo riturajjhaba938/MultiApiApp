@@ -26,7 +26,24 @@ const ApiOneParent = () => {
                     value={id}
                     onChange={e => setId(e.target.value)}
                 />
-                <button onClick={fetchUser}>Fetch API 1</button>
+                <div style={{ display: 'flex', gap: '1rem', alignItems: 'center', marginTop: '1rem' }}>
+                    <button onClick={fetchUser}>Fetch API 1</button>
+                    <a
+                        href="https://jsonplaceholder.typicode.com/users"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="route-btn"
+                        style={{
+                            padding: '0.75rem 1.5rem',
+                            color: 'white',
+                            textDecoration: 'none',
+                            borderRadius: 'var(--radius)',
+                            fontWeight: '600'
+                        }}
+                    >
+                        Available Routes
+                    </a>
+                </div>
             </div>
 
             <div className="section">
